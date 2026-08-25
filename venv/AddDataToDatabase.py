@@ -1,5 +1,48 @@
 import firebase_admin
 from firebase_admin import credentials
+from firebase_admin import db
 
-cred = credentials.certificate("Path/to/serviceAccountkey.json")
-firebase_admin.initialize_app(cred)
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+"databaseURL":"https://faceattendencerealtime-showrov-default-rtdb.firebaseio.com/"
+})
+
+ref = db.reference("students")
+
+data = {
+
+  "1":
+        {
+           "name": "Leonel Messi",
+           "major": "Robotics",
+           "starting_year": 2017,
+           "total_attendance": 6,
+           "standing": "G",
+           "year": 4,
+           "last_attendance_time": "2022-12-11 00:54:34"   
+        },
+  "2":
+        {
+            "name": "Mark zuckerberg",
+            "major": "Economics",
+            "starting_year": 2021,
+            "total_attendance": 12,
+            "standing": "B",
+            "year": 1,
+            "last_attendance_time": "2022-12-11 00:54:34"   
+        },
+  "3":
+        {
+           "name": "Elon Musk",
+            "major": "Physics",
+            "starting_year": 2020,
+            "total_attendance": 7,
+            "standing": "G",
+            "year": 2,
+            "last_attendance_time": "2022-12-11 00:54:34"   
+            },
+}
+
+for key, value in data.items():
+    ref.child(key).set(value)
+    print("Student data successfully added to Firebase!")
